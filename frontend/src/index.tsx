@@ -4,14 +4,26 @@ import ReactDOM from 'react-dom/client';
 import './styles/global.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import Routes from './My_notes_project/routes/Routes';
+import GlobalStyle from './My_notes_project/assets/styles/global'
+
+import { BrowserRouter } from 'react-router-dom';
+import Context from './My_notes_project/context/Context';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <App />
-   
+    <BrowserRouter>
+      <Context>
+        <GlobalStyle />
+        <Routes />
+        {/* <App /> */}
+      </Context>
+
+    </BrowserRouter>
+
   </React.StrictMode>
 );
 
