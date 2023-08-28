@@ -10,6 +10,7 @@ import { MyContext, ContextProps } from '../context/Context'
 import { FaPlus } from 'react-icons/fa'
 import AddNoteModal from '../components/AddNoteModal'
 import EditModal from '../components/EditModal'
+import { Link } from 'react-router-dom'
 
 
 
@@ -47,6 +48,15 @@ export default function GetNotesPage() {
         }
     }
 
+    async function Logout() {
+        try {
+            const res = await axios.post("api/users/logout")
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
+
     return (
         <StyledGetNotesPage>
             {showModal ? <AddNoteModal showModal={showModal} setShowModal={() => setShowModal(false)} /> : null}
@@ -56,7 +66,7 @@ export default function GetNotesPage() {
                     <Navbar.Brand>
                         <div className='logoutLink'>
                             <img src={logout} alt="logout" />
-                            <h2>Log out</h2>
+                            <Link className='logout' to='logout' onClick={Logout}>Log out</Link>
 
                         </div>
                     </Navbar.Brand>
@@ -123,20 +133,13 @@ const StyledGetNotesPage = styled.div`
         gap: 5px;
         margin: 20px 0 5px 0;
         cursor: pointer;
-        h2{
+        .logout{
             color: #29474f;
             font-size: 25px;
+            text-decoration: none;
         }
     }
-    button{
-        /* display: block;
-        margin: 0 auto 10px auto;
-        border: none;
-        color: #f9fdff;
-        padding: 5px 25px;
-        border-radius: 5px;
-        background-color:#444191 ; */
-    }
+  
    
     .cols{
         margin-top:20px;

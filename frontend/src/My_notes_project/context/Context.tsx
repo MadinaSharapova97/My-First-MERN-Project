@@ -36,7 +36,7 @@ export default function Context({ children }: any) {
 
         } catch (error) {
             console.log(error);
-            // navigate("/notes")
+
 
         }
     }
@@ -45,8 +45,9 @@ export default function Context({ children }: any) {
         try {
             const res = await axios.post('api/users/signup', user)
             setIsAuth(true)
-            // navigate("/notes")
+
             localStorage.setItem("isAuth", "true")
+            localStorage.setItem("TOKEN", res.data._id)
             console.log(res);
         } catch (error) {
             console.log(error);
@@ -54,7 +55,7 @@ export default function Context({ children }: any) {
         }
     }
 
-    
+
     async function LoginUser(login: LoginUserProps) {
         try {
             const res = await axios.post("api/users/login", login)
@@ -62,6 +63,8 @@ export default function Context({ children }: any) {
             // navigate("/notes")
             console.log(res);
             localStorage.setItem("isAuth", "true")
+            localStorage.setItem("TOKEN", res.data._id)
+
         } catch (error) {
             console.log(error);
 
