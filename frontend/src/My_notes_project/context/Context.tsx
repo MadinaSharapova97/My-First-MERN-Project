@@ -14,6 +14,7 @@ export const MyContext = createContext({})
 
 export interface ContextProps {
     isAuth?: boolean,
+    isLoading?: boolean,
     getNotes?: () => Function,
     getAllNotes?: any,
     setGetAllNotes?: Dispatch<SetStateAction<[]>>,
@@ -21,31 +22,39 @@ export interface ContextProps {
     LoginUser?: (login: LoginUserProps) => Promise<void> | undefined,
 }
 
+export interface Note {
+    _id: string,
+    title: string,
+    text: string,
+    createdAt: string,
+    updatedAt: string,
+}
 
 export default function Context({ children }: any) {
-    const navigate = useNavigate()
 
     const [getAllNotes, setGetAllNotes] = useState([])
     const [isAuth, setIsAuth] = useState(false)
+    const [isLoading, setIsloading] = useState(false)
 
     async function getNotes() {
         try {
             const res = await axios('api/notes')
             setGetAllNotes(res.data)
+
             console.log(res);
 
         } catch (error) {
             console.log(error);
-
-
         }
+
     }
 
     async function signUpUser(user: SignUpProps) {
+        setIsloading(true)
         try {
             const res = await axios.post('api/users/signup', user)
             setIsAuth(true)
-
+            setIsloading(false)
             localStorage.setItem("isAuth", "true")
             localStorage.setItem("TOKEN", res.data._id)
             console.log(res);
@@ -53,13 +62,19 @@ export default function Context({ children }: any) {
             console.log(error);
 
         }
+        // finally{
+        //     setIsloading(false)
+        // }
     }
 
 
     async function LoginUser(login: LoginUserProps) {
+        setIsloading(true)
         try {
             const res = await axios.post("api/users/login", login)
             setIsAuth(true)
+            setIsloading(false)
+
             // navigate("/notes")
             console.log(res);
             localStorage.setItem("isAuth", "true")
@@ -69,12 +84,16 @@ export default function Context({ children }: any) {
             console.log(error);
 
         }
+        // finally{
+        //     setIsloading(false)
+        // }
     }
 
     return (
         <MyContext.Provider value={{
             getAllNotes,
             isAuth,
+            isLoading,
             setGetAllNotes,
             getNotes,
             signUpUser,

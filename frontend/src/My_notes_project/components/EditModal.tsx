@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import close from '../assets/icons/close.svg'
 import { ContextProps, MyContext } from '../context/Context'
+import { toast } from "react-toastify"
 
 interface EditModalProps {
     editModal: boolean,
@@ -30,10 +31,12 @@ export default function EditModal({ editModal, setEditModal, editNoteId }: EditM
             console.log(res);
             if (getNotes) {
                 getNotes()
-                setEditModal()
             }
+            setEditModal()
+            toast.success("Muvoffaqiyatli o'zgartirildi")
         } catch (error) {
             console.log(error);
+            toast.error("Sarlavha yozilishi shart")
 
         }
     }

@@ -1,8 +1,9 @@
 import axios from 'axios'
 import React, { useContext, useState } from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import close from '../assets/icons/close.svg'
 import { ContextProps, MyContext } from '../context/Context'
+import { toast } from 'react-toastify'
 
 
 interface AddNoteModalProps {
@@ -29,8 +30,11 @@ export default function AddNoteModal({ showModal, setShowModal }: AddNoteModalPr
                 getNotes()
             }
             setShowModal()
+            toast.success("Muvoffaqiyatli qo'shildi")
+
         } catch (error) {
             console.log(error);
+            toast.error("Sarlavha yozilishi shart")
 
         }
     }
@@ -69,13 +73,14 @@ export default function AddNoteModal({ showModal, setShowModal }: AddNoteModalPr
                 <button className='saveBtn' onClick={() => AddNotes(notes)}>Save</button>
             </div>
 
+
         </AddNoteModalStyled>
     )
 }
 
 const AddNoteModalStyled = styled.div`
-.showAddModal{
-    background-color: white ;
+  .showAddModal{
+    background-color: white;
     width: 360px;
     height: 320px;
     border-radius: 10px;
@@ -85,15 +90,19 @@ const AddNoteModalStyled = styled.div`
     left: 50%;
     transform: translate(-50%,0%);
     z-index: 1;
-    transition: 1s linear;
+    transition:all 1s ease-in-out;
     @media (max-width:370px) {
-        width: 350px;
+    width: 350px;
     }
     @media (max-width:350px) {
-        width: 320px;
+    width: 320px;
     }
 }
-  
+
+   .hideAddModal{
+    transform: translate(-50%,-100%);
+    transition: 1s ease-in-out;
+   }
    input,textarea{
     border: none;
     outline: none;
@@ -105,11 +114,6 @@ const AddNoteModalStyled = styled.div`
     min-height: 100px;
    }
 
-   .hideAddModal{
-    transform: translate(-50%,-100%);
-    transition: 1s ease-in-out;
-
-   }
    .saveBtn{
         border: none;
         color: #f9fdff;

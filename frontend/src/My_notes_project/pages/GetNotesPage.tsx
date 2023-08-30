@@ -3,14 +3,15 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Card, Col, Container, Navbar, Row } from 'react-bootstrap'
 import styled from 'styled-components'
 import logout from '../assets/icons/arrow-left-line.svg'
-import close from '../assets/icons/close.svg'
 import edit from '../assets/icons/edit-2-fill.svg'
 import del from '../assets/icons/delete-bin-7-fill.svg'
 import { MyContext, ContextProps } from '../context/Context'
 import { FaPlus } from 'react-icons/fa'
 import AddNoteModal from '../components/AddNoteModal'
 import EditModal from '../components/EditModal'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import { formatDate } from '../utils/formatDate'
 
 
 
@@ -20,18 +21,17 @@ export default function GetNotesPage() {
         if (getNotes) {
             getNotes()
         }
+
     }, [])
 
-
-
+    const navigate = useNavigate();
     const [editModal, setEditModal] = useState(false)
     const [showModal, setShowModal] = useState(false)
     const [editNoteId, setEditNoteId] = useState(null)
 
+
     function showHideModal() {
         setShowModal((p) => !p)
-        console.log(showModal);
-
     }
 
     async function deletNote(id: string) {
@@ -40,33 +40,32 @@ export default function GetNotesPage() {
             if (getNotes) {
                 getNotes()
             }
+            toast.success("Muvoffaqiyatli o'chirildi")
+
             console.log(res);
 
         } catch (error) {
             console.log(error);
-
         }
     }
 
-    async function Logout() {
-        try {
-            const res = await axios.post("api/users/logout")
-        } catch (error) {
-            console.log(error);
-            
-        }
+    function Logout() {
+        localStorage.removeItem("TOKEN")
+        localStorage.removeItem("isAuth")
+        navigate("/login");
     }
+
+
 
     return (
         <StyledGetNotesPage>
             {showModal ? <AddNoteModal showModal={showModal} setShowModal={() => setShowModal(false)} /> : null}
-            {/* {editModal ? <EditModal setEditModal={() => setEditModal(true)} editModal={editModal}/> : null} */}
             <Navbar expand="lg" className="bg-body-tertiary">
                 <Container>
                     <Navbar.Brand>
                         <div className='logoutLink'>
                             <img src={logout} alt="logout" />
-                            <Link className='logout' to='logout' onClick={Logout}>Log out</Link>
+                            <Link className='logout' to='/login' onClick={Logout}>Log out</Link>
 
                         </div>
                     </Navbar.Brand>
@@ -90,7 +89,13 @@ export default function GetNotesPage() {
                                         <h3>{i.title}</h3>
                                         <p>{i.text}</p>
                                     </div>
+                                    <div className='createdUpdatedText'>
+                                        {i.updatedAt > i.createdAt ?
+                                            <p>{formatDate(i.createdAt)}</p> :
+                                            <p>{formatDate(i.updatedAt)}</p>
 
+                                        }
+                                    </div>
                                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                                         <img src={edit} alt="edit" onClick={() => {
                                             setEditNoteId(i)
@@ -98,6 +103,7 @@ export default function GetNotesPage() {
                                         }} />
                                         <img src={del} alt="delete" onClick={() => deletNote(i._id)} />
                                     </div>
+
                                 </Card>
                             </Col>
                         ))}
@@ -191,6 +197,15 @@ const StyledGetNotesPage = styled.div`
             margin-top: 7px;
 
          }
+    }
+    .createdUpdatedText{
+        background-color:#f9fdff ;
+        margin-top: 20px;
+        border-top: 1px solid #c0c5d0;
+        padding-top: 10px;
+    p{
+        color: #c0c5d0;
+    }
     }
     
 `

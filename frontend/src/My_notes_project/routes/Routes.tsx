@@ -3,12 +3,15 @@ import { Route, Routes, BrowserRouter, Navigate } from 'react-router-dom'
 import GetNotesPage from '../pages/GetNotesPage'
 import SignUpPage from '../pages/SignUpPage'
 import LoginPage from '../pages/LoginPage'
-// import { ContextProps, MyContext } from '../context/Context'
+import Loading from '../components/Loading'
+import { ContextProps, MyContext } from '../context/Context'
 
 export default function RoutesNotes() {
-  // const { isAuth } = useContext<ContextProps>(MyContext)
+  const { isLoading } = useContext<ContextProps>(MyContext)
 
   const isAuth = localStorage.getItem("isAuth")
+
+  if (isLoading) return <Loading />
 
   if (isAuth) {
     return (
