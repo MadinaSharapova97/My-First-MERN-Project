@@ -21,7 +21,6 @@ export default function GetNotesPage() {
         if (getNotes) {
             getNotes()
         }
-
     }, [])
 
     const navigate = useNavigate();
@@ -54,8 +53,6 @@ export default function GetNotesPage() {
         localStorage.removeItem("isAuth")
         navigate("/login");
     }
-
-
 
     return (
         <StyledGetNotesPage>

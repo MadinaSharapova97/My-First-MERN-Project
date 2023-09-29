@@ -17,16 +17,15 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
+    {/* <BrowserRouter>
       <Context>
         <GlobalStyle />
         <Routes />
         <ToastContainer/>
-        {/* <Loading/> */}
-        {/* <App /> */}
       </Context>
 
-    </BrowserRouter>
+    </BrowserRouter> */}
+        <App />
 
   </React.StrictMode>
 );

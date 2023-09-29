@@ -5,12 +5,15 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import logo from '../assets/icons/logo.svg'
 import paper from '../assets/images/img3.jpg'
+import LoginModal from '../components/LoginModal'
 import SignUPModal from '../components/SignUPModal'
 
 
 export default function SignUpPage() {
 
     const [showModal, setShowModal] = useState(false);
+    const [LoginShowModal, setLoginShowModal] = useState(false)
+
 
     return (
         <StyledSignUpPage>
@@ -29,8 +32,16 @@ export default function SignUpPage() {
                         </div>
 
                     </Navbar.Brand>
+                    <div style={{
+                        display:"flex",
+                        alignItems:"center",
+                        gap:"30px"
 
-                    <p onClick={() => setShowModal(true)}>Sign Up</p>
+                    }}>
+
+                        <p onClick={() => setLoginShowModal(true)}>Login</p>
+                        <p onClick={() => setShowModal(true)}>Sign Up</p>
+                    </div>
                 </Container>
             </Navbar>
             <Container>
@@ -50,6 +61,7 @@ export default function SignUpPage() {
             </Container>
 
             {showModal ? <SignUPModal setShowModal={() => setShowModal(false)} /> : null}
+            {LoginShowModal ? <LoginModal setShowLoginModal={() => setLoginShowModal(false)}/> : null}
 
         </StyledSignUpPage>
     )
@@ -66,6 +78,9 @@ h3{
  p{
     color:#29474f;
     cursor: pointer;
+ }
+ p:hover{
+    color: #3bca97;
  }
  .paper{
     display: flex;

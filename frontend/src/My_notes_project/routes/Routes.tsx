@@ -1,8 +1,7 @@
 import React, { useContext } from 'react'
-import { Route, Routes, BrowserRouter, Navigate } from 'react-router-dom'
+import { Route, Routes, Navigate } from 'react-router-dom'
 import GetNotesPage from '../pages/GetNotesPage'
 import SignUpPage from '../pages/SignUpPage'
-import LoginPage from '../pages/LoginPage'
 import Loading from '../components/Loading'
 import { ContextProps, MyContext } from '../context/Context'
 
@@ -25,8 +24,7 @@ export default function RoutesNotes() {
   return (
 
     <Routes>
-      <Route path='login' element={<LoginPage />} />
-      <Route path='signup' element={<SignUpPage />} />
+      <Route path='login' element={<SignUpPage />} />
       <Route path='*' element={<Navigate to='/login' />} />
     </Routes>
 

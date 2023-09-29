@@ -57,6 +57,7 @@ export default function Context({ children }: any) {
             setIsloading(false)
             localStorage.setItem("isAuth", "true")
             localStorage.setItem("TOKEN", res.data._id)
+            
             console.log(res);
         } catch (error) {
             console.log(error);
